@@ -1,0 +1,25 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+
+    <div class="max-w-md mx-auto bg-white rounded p-6 shadow-md">
+        <h2 class="text-2xl font-bold mb-8">Student Registration</h2>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Register</button>
+        </form>
+
+        <p class="mt-4">Already have an account? <a href="{% url 'student:login' %}" class="text-blue-500">Login</a></p>
+    </div>
+
+</body>
+</html>

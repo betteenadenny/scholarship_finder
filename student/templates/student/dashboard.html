@@ -1,0 +1,119 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Student Dashboard</title>    
+ 
+     <style>
+         body {
+             display: flex;
+             flex-direction: column;
+             height: 100vh;
+             margin: 0;
+         }
+ 
+         header {
+             padding: 20px;
+             background-color: #f0f0f0;
+             text-align: center;
+         }
+ 
+         main {
+             flex: 1;
+             display: flex;
+             justify-content: space-between;
+         }
+ 
+         .scholarship-container {
+             width: 80%;
+             padding: 20px;
+         }
+
+         .student-container {
+            width: 15%;
+            padding: 20px;
+        }
+ 
+         .scholarship-details,.student-details  {
+             background-color: #f5f5f5;
+             padding: 15px;
+             margin-bottom: 20px;
+             border: 1px solid #ddd;
+             border-radius: 5px;
+         }
+ 
+         .scholarship-details a ,.student-details a{
+             display: block;
+             margin-top: 10px;
+             text-decoration: none;
+             background-color: #333;
+             color: white;
+             padding: 5px 10px;
+             border-radius: 3px;
+             font-size: 14px; /* Set font size */
+         }
+ 
+         .btn-logout,
+         .btn-update {
+             background-color: #333;
+             color: white;
+             padding: 5px 10px;
+             text-decoration: none;
+             border-radius: 3px;
+             position: absolute;
+             font-size: 14px; /* Set font size */
+         }
+ 
+         .btn-logout {
+             top: 10%;
+             left: 95%;
+         }
+ 
+     </style>
+ </head>
+ <body>
+     <header>
+         <h2>Welcome {{ student.username }}!</h2>
+         <h4>Find the perfect scholarship for your needs.</h4>
+         <a class="btn-logout" href="{% url 'student:logout' %}" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+     </header>
+ 
+     <main>
+         <div class="scholarship-container">
+            <h3>Scholarships you are eligible for apply</h3>
+            {% for scholarship in valid_scholarships %}
+                {% if scholarship.verified %}
+                    <div class="scholarship-details">
+                        <h3>{{ scholarship.name }}</h3>
+                        <p>{{ scholarship.description }}</p>
+                        <p>Application start date:{{scholarship.application_start_date}}<p>
+                        <p>Application end date:{{scholarship.application_end_date}}<p>
+                        <a href="{{ scholarship.application_link }}">Apply Now</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% if valid_scholarships %}
+                
+            {% else %}
+                <p>Sorry, there is no scholarship matching your profile.</p>
+            {% endif %}
+        </div>
+ 
+         <div class="student-container">
+            <h2>Student Details</h2>
+             <div class="student-details">
+                <p><strong>Name:</strong>{{student.first_name}}</p>
+                <p><strong>E-mail :</strong> {{ student.email}}</p>
+                <p><strong>Annual income:</strong>{{student.annual_income}}</p>
+                <p><strong>Type :</strong> {{ student.type }}</p>
+                <p><strong>Category:</strong> {{ student.category }}</p>
+                <p><strong>Degree Type:</strong>{{student.degree_type}}</p>
+                <p><strong>Major:</strong>{{student.major}}</p>
+                <a  href="{% url 'student:update_profile' %}" onclick="return confirm('Are you sure you want to update details?')">Update</a>
+             </div>
+         </div>
+     </main>
+ </body>
+ </html>
+ 

@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #background-img {
+            position: fixed;
+            filter: blur(3px);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Send the image to the background */
+        }
+        form {
+            max-width: 300px;
+            width: 100%;
+            background: linear-gradient(to bottom, #fff, #f2f2f2); /* Gradient Color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        form button:hover {
+            background-color: #555;
+        }
+
+        form p {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        form a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <img id="background-img" src={%static "img/stud_log.jpeg" %} alt="Background Image">
+    <form method="post">
+        <header>
+            <h2>student Login</h2>
+        </header>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% csrf_token %} 
+        {{ form.as_p }} 
+        <button type="submit">Login</button>
+        <p>Don't have an account? <a href="{% url 'student:register' %}">Register</a></p>
+    </form>
+</body>
+</html>
+
+
+
