@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            {% comment %} background-color: #ababab; {% endcomment %}
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .home {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        .home a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .btn-login {
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 3px;
+            position: absolute;
+            font-size: 14px; 
+        }
+        main{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 40vh;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Scholarship registered Successfully</h1>
+        <div class="home">
+            <p><a href="{% url 'organization:dashboard' %}">home</a></p>
+        </div>
+    </header>
+    <main>
+        <h3>Hey, {{ user.username }} you have successfully registered the scholarship</h3>
+        <h5>Click above link to add another Scholarshipn</h5>
+        <a class="btn-login" href="{% url 'scholarship:scholarship_form' %}">Add</a>
+    </main>    
+    
+</body>
+</html>
+
+
+<p><a href=""></a></p>
+</body>
+</html>

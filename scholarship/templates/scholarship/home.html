@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Scholarship Finder</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .admin-login {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .admin-login a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .about {
+            text-align: center;
+        }
+
+        .login {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .student,
+        .organization {
+            width: 45%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .student a:hover,
+        .organization a:hover {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .student a,
+        .organization a {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Scholarship Finder</h1>
+        <p>Find the perfect scholarship for your needs.</p>
+        <div class="admin-login">
+            <p><a href="http://127.0.0.1:8000/admin/login/?next=/admin/">Admin Login</a></p>
+        </div>
+    </header>
+
+    <section class="about">
+        <h2>About Us</h2>
+        <p>"We aim to assist students in finding suitable scholarships based on their skills and academic achievements.Discover scholarships that not only match your skills and academics but also pave the way for your educational journey"</p>
+    </section>
+
+    <section class="login">
+        <div class="student">
+            <h2>Student</h2>
+            <p><a href="{% url 'student:login' %}">Login</a></p>
+            <p>New user? <a href="{% url 'student:register' %}">Register here</a></p>
+        </div>
+
+        <div class="organization">
+            <h2>External Organization</h2>
+            <p><a href="{% url 'organization:login' %}">Login</a></p>
+            <p>New user? <a href="{% url 'organization:register' %}">Register here</a></p>
+        </div>
+    </section>
+</body>
+</html>

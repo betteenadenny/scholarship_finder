@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Dashboard</title>
+    <style>
+        /* Add your custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        header {
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .btn-logout {
+             background-color: #333;
+             color: white;
+             padding: 5px 10px;
+             text-decoration: none;
+             border-radius: 3px;
+             position: absolute;
+             font-size: 14px; 
+             top: 10%;
+             left: 95%;
+         }
+         .btn-add{
+             background-color: #333;
+             color: white;
+             padding: 5px 10px;
+             text-decoration: none;
+             border-radius: 3px;
+
+         }
+         .scholarship-container {
+            width: 90%;
+            padding: 20px;
+        }
+
+        .scholarship-details {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .scholarship-details a {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 14px; /* Set font size */
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Welcome {{ user.username }}!</h2>
+        <h4>Organization is Verified: {{ organization.is_verified }}</h4>
+        <a class="btn-logout" href="{% url 'organization:logout' %}" onclick="return confirm('Are you sure you want to logout?')">Logout</a></p>
+    </header>
+
+    <main>
+        <div class="scholarship-container">
+            {% if organization.is_verified %}
+                <a class="btn-add" href="{% url 'scholarship:scholarship_form' %}">Add Scholarship</a>
+                <h3>Scholarships Added by Your Organization:</h3>
+                {% for scholarship in scholarships_added_by_organization %}
+                <div class="scholarship-details">
+                        <h3>{{ scholarship.name }} </h3> 
+                        <p>{{ scholarship.description }}<p>
+                        <a href="{% url 'scholarship:update' scholarship.id %}" onclick="return confirm('Are you sure you want to update details?')">Update</a>                        
+                </div>
+                {% endfor %}
+                {% else %}
+                <h2>Sorry , Your organization is not verified</h2>
+                <h3>Organizations can add scholarships once they are verified by the admin. </h3>
+                {% endif %}
+        </div>   
+</body>
+</html>
+

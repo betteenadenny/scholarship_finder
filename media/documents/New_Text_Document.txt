@@ -1,0 +1,75 @@
+After a successful registration, the process of validating external organization details and notifying the organization, including sending credentials, can be achieved through additional steps in your Django views.
+
+Here's a general outline of the steps you might want to consider:
+
+1. **Admin Validation:**
+   After an organization registers, you can create a process for admin validation. This might involve reviewing the organization's details, checking any required documents, and making a decision on whether to approve or reject the registration.
+
+2. **Notification to Organization:**
+   Depending on the validation result, you can send an email to the organization notifying them of the outcome. You can use Django's built-in email functionality or third-party packages like Django Email or SendGrid.
+
+3. **Sending Credentials (if approved):**
+   If the organization is approved, you can generate and send credentials for login. For security reasons, consider using Django's authentication system and sending a one-time login link instead of sending actual passwords.
+
+Here's an example of how you might structure your view for organization registration:
+
+```python
+from django.shortcuts import render, redirect
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from .forms import ExternalOrganizationRegistrationForm
+
+def organization_registration(request):
+    if request.method == 'POST':
+        form = ExternalOrganizationRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the organization details to the database, including the file
+            organization = form.save(commit=False)
+            organization.save()
+
+            # Perform additional steps for admin validation
+            # For simplicity, let's assume all organizations are approved for demonstration purposes
+            is_approved = True
+
+            # Notify the organization of the validation result
+            notify_organization(organization, is_approved)
+
+            if is_approved:
+                # Generate credentials and send a one-time login link
+                send_login_credentials(organization)
+
+            # Redirect to the success page
+            return redirect('external_organization:registration_success')
+    else:
+        form = ExternalOrganizationRegistrationForm()
+
+    return render(request, 'external_organization/organization_registration.html', {'form': form})
+
+def notify_organization(organization, is_approved):
+    # Send an email to the organization
+    subject = 'Registration Approval' if is_approved else 'Registration Rejection'
+    message = f'Your organization registration is { "approved" if is_approved else "rejected" }.'
+    send_mail(subject, message, 'from@example.com', [organization.email])
+
+def send_login_credentials(organization):
+    # Generate a username (for simplicity, using the organization name as the username)
+    username = organization.name.lower().replace(' ', '_')
+
+    # Generate a password (for simplicity, using a random password)
+    password = User.objects.make_random_password()
+
+    # Create a User object for the organization
+    user = User.objects.create_user(username=username, password=password, email=organization.email)
+
+    # Optionally, you might want to store the user reference in your organization model
+    organization.user = user
+    organization.save()
+
+    # Send an email to the organization with the login credentials
+    subject = 'Login Credentials for Scholarship Finder'
+    message = f'Your login credentials:\n\nUsername: {username}\nPassword: {password}'
+    send_mail(subject, message, 'from@example.com', [organization.email])
+```
+
+This is a simplified example, and you may need to adjust it based on your specific requirements and authentication system. Make sure to handle security considerations, such as using secure methods for sending passwords or login links.
